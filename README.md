@@ -8,6 +8,8 @@ jr_coro is a lightweight coroutine library for C, designed to test an idea i had
 
 The idea is to malloc an area, move the stackpointer there then setup up jump buffers to allow for easy switching. The register saving and restoring is done inside `aarch64.S` to avoid problems with `-O3` optimizations.
 
+I plan to use these in a Lisp interpreter that I'm currently writing.
+
 ## Features
 
 - Lightweight and minimalistic coroutine implementation
