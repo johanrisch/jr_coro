@@ -2,7 +2,7 @@
 #include <stdio.h>
 int test_fn(size_t args) {
     for (int i = 0; i < args; i++) {
-        yield(i);
+        jr_coro_yield(i);
     }
     return 0;
 }
@@ -18,11 +18,11 @@ int main() {
     printf("[main] Resuming coroutine...\n");
     while(coro1_status != DONE || coro2_status != DONE) {
         if (coro1_status != DONE) {
-            coro1_status = resume_coro(&coro1);
+            coro1_status = jr_resume_coro(&coro1);
             printf("[main] Yielded value (coro 1):%d %lu\n",coro1_status, coro1.yielded_value);
         }
         if (coro2_status != DONE) {
-            coro2_status = resume_coro(&coro2);
+            coro2_status = jr_resume_coro(&coro2);
             printf("[main] Yielded value (coro 2):%d %lu\n",coro2.finished, coro2.yielded_value);
         }
 

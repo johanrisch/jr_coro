@@ -21,10 +21,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-.global jr_arm_call
-.type jr_arm_call, %function
+.global __jr_asm_call
+.type __jr_asm_call, %function
 
-jr_arm_call:
+__jr_asm_call:
     // Save general-purpose registers
     stp x29, x30, [sp, #-16]!
     stp x19, x20, [sp, #-16]!
@@ -69,10 +69,10 @@ jr_arm_call:
     ret
 
 
-.global jr_setjmp
-.type jr_setjmp, %function
+.global __jr_setjmp
+.type __jr_setjmp, %function
 
-jr_setjmp:
+__jr_setjmp:
     stp x19, x20, [x0, #0]      // Save x19 and x20
     stp x21, x22, [x0, #16]     // Save x21 and x22
     stp x23, x24, [x0, #32]     // Save x23 and x24
@@ -85,10 +85,10 @@ jr_setjmp:
     str x9, [x0, #104]          // Save CPSR in the context
     mov w0, #0                  // Return 0
     ret
-.global jr_longjmp
-.type jr_longjmp, %function
+.global __jr_longjmp
+.type __jr_longjmp, %function
 
-jr_longjmp:
+__jr_longjmp:
     ldp x19, x20, [x0, #0]      // Restore x19 and x20
     ldp x21, x22, [x0, #16]     // Restore x21 and x22
     ldp x23, x24, [x0, #32]     // Restore x23 and x24

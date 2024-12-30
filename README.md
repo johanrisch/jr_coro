@@ -95,7 +95,7 @@ Creates a new coroutine with the specified function, arguments, and stack size.
 ### Resuming a Coroutine
 
 ```c
-coro_status_t resume_coro(jr_coro_t *coro);
+coro_status_t jr_resume_coro(jr_coro_t *coro);
 ```
 
 Resumes the specified coroutine and returns its status.
@@ -103,7 +103,7 @@ Resumes the specified coroutine and returns its status.
 ### Yielding a Value
 
 ```c
-void yield(size_t value);
+void jr_coro_yield(size_t value);
 ```
 
 Yields a value from the coroutine.
@@ -127,7 +127,7 @@ Here is a simple example demonstrating how to use the jr_coro library:
 
 int test_fn(size_t args) {
     for (int i = 0; i < args; i++) {
-        yield(i);
+        jr_coro_yield(i);
     }
     return 0;
 }
@@ -137,7 +137,7 @@ int main() {
     jr_coro_t coro = jr_coro(test_fn, 5, 1024 * 1024); // 1MB stack
 
     printf("[main] Resuming coroutine...\n");
-    while (resume_coro(&coro) != DONE) {
+    while (jr_resume_coro(&coro) != DONE) {
         printf("[main] Yielded value: %lu\n", coro.yielded_value);
     }
 

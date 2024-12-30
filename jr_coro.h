@@ -88,7 +88,7 @@ typedef struct {
  * @param buf Pointer to the jump buffer.
  * @return 0 if returning directly, non-zero if returning from a long jump.
  */
-int jr_setjmp(void *buf);
+int __jr_setjmp(void *buf);
 
 /**
  * @brief Perform a long jump.
@@ -98,7 +98,7 @@ int jr_setjmp(void *buf);
  * @param buf Pointer to the jump buffer.
  * @param value Value to return from the set jump.
  */
-void jr_longjmp(void *buf, int value);
+void __jr_longjmp(void *buf, int value);
 
 /**
  * @brief Call a function with a new stack pointer.
@@ -125,7 +125,7 @@ void safe_asm_call(void *new_sp, void (*func)(void));
  *
  * This function is the entry point for the coroutine.
  */
-void coro_entry();
+void __jr_coro_entry();
 
 /**
  * @brief Switch to a coroutine.
@@ -134,7 +134,7 @@ void coro_entry();
  *
  * @param coro Pointer to the coroutine.
  */
-void switch_to_coro(jr_coro_t *coro);
+void __jr_switch_to_coro(jr_coro_t *coro);
 
 /**
  * @brief Yield a value from the coroutine.
@@ -143,7 +143,7 @@ void switch_to_coro(jr_coro_t *coro);
  *
  * @param value Value to yield.
  */
-void yield(size_t value);
+void jr_coro_yield(size_t value);
 
 /**
  * @brief Resume a coroutine.
@@ -153,7 +153,7 @@ void yield(size_t value);
  * @param coro Pointer to the coroutine.
  * @return Status of the coroutine after resuming.
  */
-coro_status_t resume_coro(jr_coro_t *coro);
+coro_status_t jr_resume_coro(jr_coro_t *coro);
 
 /**
  * @brief Create a new coroutine.
