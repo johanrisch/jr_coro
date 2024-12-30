@@ -34,6 +34,14 @@ SOFTWARE.
  * This file contains the definitions and function declarations for the coroutine library.
  */
 
+#if defined(__aarch64__)
+#define JR_JMP_BUF_SIZE 18
+#elif defined(__x86_64__)
+#define JR_JMP_BUF_SIZE 8
+#else
+#error "Unsupported architecture"
+#endif
+
 /**
  * @struct jr_jmp_buf
  * @brief Structure to hold the state of a coroutine.
@@ -41,15 +49,7 @@ SOFTWARE.
  * This structure is used to save and restore the state of a coroutine.
  */
 typedef struct {
-    uint64_t x19_x20[2]; /**< General-purpose registers x19 and x20 */
-    uint64_t x21_x22[2]; /**< General-purpose registers x21 and x22 */
-    uint64_t x23_x24[2]; /**< General-purpose registers x23 and x24 */
-    uint64_t x25_x26[2]; /**< General-purpose registers x25 and x26 */
-    uint64_t x27_x28[2]; /**< General-purpose registers x27 and x28 */
-    uint64_t x29_x30[2]; /**< Frame pointer (x29) and link register (x30) */
-    uint64_t x8;         /**< General-purpose register x8 */
-    uint64_t sp;         /**< Stack pointer */
-    uint64_t CPSR;       /**< Current Program Status Register */
+    uint64_t regs[JR_JMP_BUF_SIZE]; /**< Array to hold the register values */
 } jr_jmp_buf;
 
 /**
