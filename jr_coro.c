@@ -207,6 +207,7 @@ jr_coro_t jr_coro(int (*fn)(size_t), size_t args, size_t stack_size) {
 }
 
 void jr_coro_free(jr_coro_t *coro) {
+    assert(coro != NULL && "Coro is NULL");
     if (coro->base_pointer != NULL) {
         free(coro->base_pointer);
         coro->base_pointer = NULL;

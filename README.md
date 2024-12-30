@@ -46,16 +46,16 @@ After building the project, you can run the example program:
 
 ### Running Tests
 
-The tests are very basic at the moment, just run the main.out.
+The tests are very basic at the moment, just run the main.out or:
 
 ```sh
-make all
+make test
 ```
 
 Which should yield this output:
 
 ```
-make all
+make test
 cc -O3 -c aarch64.S jr_coro.c
 ar rcs jr_coro_aarch64.a aarch64.o jr_coro.o
 cc -O3 main.c jr_coro_aarch64.a -o main.out

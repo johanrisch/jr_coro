@@ -20,9 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 .PHONY: clean
-test: aarch64.S jr_coro.c
-	$(CC) -O3 -g aarch64.S jr_coro.c -DTEST -o test.out
-	./test.out
 
 aarch64: aarch64.S jr_coro.c
 	$(CC) -O3 -c aarch64.S jr_coro.c
@@ -30,6 +27,8 @@ aarch64: aarch64.S jr_coro.c
 
 all: aarch64
 	$(CC) -O3 main.c jr_coro_aarch64.a -o main.out
+
+test: all
 	./main.out
 
 clean:
