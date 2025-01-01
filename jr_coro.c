@@ -26,14 +26,18 @@ SOFTWARE.
 #include <setjmp.h>
 #include <stdint.h>
 #include <assert.h>
+
+#define __jr_setjmp(buf) setjmp(*(buf))
+#define __jr_longjmp(buf, value) longjmp(*(buf), value);
+
 #include "jr_coro.h"
 
 // Implemented in assembly.
-extern int __jr_setjmp(void *buf);
-extern void __jr_longjmp(void *buf, int value);
+// extern int __jr_setjmp(void *buf);
+// extern void __jr_longjmp(void *buf, int value);
 extern void __jr_asm_call(void *new_sp, void (*func)(void));
 
-jr_jmp_buf __jr_main_context;
+jmp_buf __jr_main_context;
 jr_coro_t *__jr_current_coro = NULL;
 
 

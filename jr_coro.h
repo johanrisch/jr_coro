@@ -23,6 +23,7 @@ SOFTWARE.
 */
 #ifndef JR_CORO_H
 #define JR_CORO_H
+#include <setjmp.h>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -77,7 +78,7 @@ typedef struct {
     uint8_t initialized;   /**< Flag indicating if the coroutine is initialized */
     uint8_t finished;      /**< Flag indicating if the coroutine is finished */
     size_t args;           /**< Arguments for the coroutine function */
-    jr_jmp_buf context;    /**< Jump buffer to save the coroutine context */
+    jmp_buf context;    /**< Jump buffer to save the coroutine context */
 } jr_coro_t;
 
 /**
@@ -88,7 +89,7 @@ typedef struct {
  * @param buf Pointer to the jump buffer.
  * @return 0 if returning directly, non-zero if returning from a long jump.
  */
-int __jr_setjmp(void *buf);
+// int __jr_setjmp(void *buf);
 
 /**
  * @brief Perform a long jump.
@@ -98,7 +99,7 @@ int __jr_setjmp(void *buf);
  * @param buf Pointer to the jump buffer.
  * @param value Value to return from the set jump.
  */
-void __jr_longjmp(void *buf, int value);
+// void __jr_longjmp(void *buf, int value);
 
 /**
  * @brief Call a function with a new stack pointer.

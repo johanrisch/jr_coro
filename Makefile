@@ -22,7 +22,7 @@
 .PHONY: clean
 
 aarch64: aarch64.S jr_coro.c
-	$(CC) -O3 -c aarch64.S jr_coro.c
+	$(CC) -O0 -c aarch64.S jr_coro.c
 	$(AR) rcs jr_coro_aarch64.a aarch64.o jr_coro.o
 
 all: aarch64

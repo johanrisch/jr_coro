@@ -6,7 +6,9 @@
 
 jr_coro is a lightweight coroutine library for C, designed to test an idea i had. Inspired by stackable coroutines using longjmp and setjmp. But with their own allocated stack.
 
-The idea is to malloc an area, move the stackpointer there then setup up jump buffers to allow for easy switching. The register saving and restoring is done inside `aarch64.S` to avoid problems with `-O3` optimizations.
+I have a goal of allowing -O3 when compiling, but at the moment the aggresive optimization assumes something about the stack that I'm breaking with out stack change hack (go figure...). For now, I'll set it to -O0 which works with regular setjmp and longjmp. That way I'll be able to add some tests and examples to build up a good test suite for implementing the custom versions later.
+
+In the end the idea is to malloc an area, move the stackpointer there then setup up jump buffers to allow for easy switching. The register saving and restoring is done inside `aarch64.S` to avoid problems with `-O3` optimizations.
 
 I plan to use this in a Lisp interpreter that I'm currently writing.
 
