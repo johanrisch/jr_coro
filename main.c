@@ -2,6 +2,16 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+#define TEST(name,test, expected, fmt) \
+    do { \
+        if ((test) == (expected)) { \
+            printf("[PASS] %s: " fmt " == " fmt "\n", name, test, expected); \
+        } else { \
+            printf("[FAIL] %s: " fmt " != " fmt "\n", name, test, expected); \
+        } \
+    } while (0)
+
+
 int test_fn(size_t args) {
     for (int i = 0; i < args; i++) {
         jr_coro_yield(i);
@@ -66,16 +76,14 @@ int main() {
             coro4_count++;
         }
     }
-    assert(coro1_count == 6 && "CORO 1 count is wrong");
-    printf("[CORO 1] PASS\n");
-    assert(coro2_count == 11 && "CORO 2 count is wrong");
-    printf("[CORO 2] PASS\n");
-    assert(coro3_count == 11 && "CORO 3 count is wrong");
-    assert(coro3.yielded_value == 45 && "CORO 3 Yielded value is wrong");
-    printf("[CORO 3] PASS\n");
-    assert(coro4_count == 11 && "CORO 4 count is wrong");
-    assert(coro4.yielded_value == 1 && "CORO 4 Yielded value is wrong");
-    printf("[CORO 4] PASS\n");
+    
+    TEST("CORO1 COUNT", coro1_count, 6, "%d");
+    TEST("CORO2 COUNT", coro2_count, 11, "%d");
+    TEST("CORO3 COUNT", coro3_count, 11, "%d");
+    TEST("CORO3 YIELDED VALUE", coro3.yielded_value, 45l, "%ld");
+    TEST("CORO4 COUNT", coro4_count, 11, "%d");
+    TEST("CORO4 YIELDED VALUE", coro4.yielded_value, 1l, "%ld");
+
     jr_coro_free(&coro1);
     jr_coro_free(&coro2);
     
