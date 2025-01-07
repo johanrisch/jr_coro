@@ -25,20 +25,6 @@ SOFTWARE.
 .type __jr_asm_call, %function
 
 __jr_asm_call:
-    // Save general-purpose registers
-    stp x29, x30, [sp, #-16]!
-    stp x19, x20, [sp, #-16]!
-    stp x21, x22, [sp, #-16]!
-    stp x23, x24, [sp, #-16]!
-    stp x25, x26, [sp, #-16]!
-    stp x27, x28, [sp, #-16]!
-
-    // Save NEON registers
-    stp d8, d9, [sp, #-16]!
-    stp d10, d11, [sp, #-16]!
-    stp d12, d13, [sp, #-16]!
-    stp d14, d15, [sp, #-16]!
-
     // Validate stack alignment
     mov x9, sp                 // Copy SP to a general-purpose register
     and x9, x9, #0xF           // Check alignment
@@ -49,24 +35,13 @@ __jr_asm_call:
     mov sp, x0
     blr x1
 
-    // Restore original stack
-    mov sp, x9
-
-    // Restore NEON registers
-    ldp d14, d15, [sp], #16
-    ldp d12, d13, [sp], #16
-    ldp d10, d11, [sp], #16
-    ldp d8, d9, [sp], #16
-
-    // Restore general-purpose registers
-    ldp x27, x28, [sp], #16
-    ldp x25, x26, [sp], #16
-    ldp x23, x24, [sp], #16
-    ldp x21, x22, [sp], #16
-    ldp x19, x20, [sp], #16
-    ldp x29, x30, [sp], #16
-
     ret
+
+.L_alignment_error:
+    // Print an error or handle misalignment
+    mov w0, #1                  // Error return value
+    ret
+
 
 
 .global __jr_setjmp
@@ -105,10 +80,4 @@ __jr_longjmp:
     mov w0, w1                  // Set return value
     ret
 
-    
-
-.L_alignment_error:
-    // Print an error or handle misalignment
-    mov w0, #1                  // Error return value
-    ret
 
